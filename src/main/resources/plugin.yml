@@ -1,0 +1,6 @@
+name: TptpPlugin
+version: ${project.version}
+main: me.zbenjamin.tptpplugin.TptpPlugin
+api-version: 1.14
+authors: [ZBenjamin]
+description: Warping and emotes
