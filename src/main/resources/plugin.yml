@@ -6,8 +6,10 @@ authors: [ZBenjamin]
 description: Warping and emotes
 commands:
   sad:
-    description: Be sad.
-    usage: /<command>
+    description: Legyél szomorú.
+    usage: /<command> <player>
+    aliases: [szomoru]
   happy:
-    description: Be happy.
-    usage: /<command>
+    description: Legyél boldog.
+    usage: /<command> <player>
+    aliases: [boldog]

@@ -16,9 +16,13 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
     public void onEnable() {
         // Plugin startup logic
         getLogger().info("Tptp Plugin is now booted up!");
+
         getServer().getPluginManager().registerEvents(this, this);
+
         getCommand("sad").setExecutor(new SadCmd());
+        getCommand("szomoru").setExecutor(new SadCmd());
         getCommand("happy").setExecutor(new HappyCmd());
+        getCommand("boldog").setExecutor(new HappyCmd());
     }
 
     @Override
