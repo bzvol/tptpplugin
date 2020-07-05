@@ -1,1 +1,1 @@
-"# My first plugin, for a Spigot MC server" 
+# My first plugin, for a Spigot MC server
