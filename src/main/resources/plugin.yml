@@ -4,3 +4,10 @@ main: me.zbenjamin.tptpplugin.TptpPlugin
 api-version: 1.14
 authors: [ZBenjamin]
 description: Warping and emotes
+commands:
+  sad:
+    description: Be sad.
+    usage: /<command>
+  happy:
+    description: Be happy.
+    usage: /<command>
