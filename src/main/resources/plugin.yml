@@ -6,10 +6,22 @@ authors: [ZBenjamin]
 description: Warping and emotes
 commands:
   sad:
-    description: Legyél szomorú.
-    usage: /<command> <player>
+    description: Legyél szomorú. Be sad.
+    usage: /<command> [online player]
     aliases: [szomoru]
   happy:
-    description: Legyél boldog.
-    usage: /<command> <player>
+    description: Legyél boldog. Be happy.
+    usage: /<command> [online player]
     aliases: [boldog]
+  tptpconfig:
+    description: Konfigurálni tudod a plugint. You can set the plugin's config.
+    usage: /<command> <set <key> <value> | reload | save>
+  tptpset:
+    description: TP pontokat tudsz elmenteni, akár csak saját magadnak is. You can save TP points, even only for yourself.
+    usage: /<command> <név/name> [x] [y] [z] [self]
+  tptp:
+    description: Az elmentett TP pontokra tudsz teleportálni. You can teleport to saved TP points.
+    usage: /<command> <név/name>
+  lobby:
+    description: Elteleportál a lobbyba, vagy beállítja azt. It teleports you to the lobby, or you can set it.
+    usage: /<command> [set [x] [y] [z] | reloadconfig | setprotect <p1 | p2> | protect <on | off>]
