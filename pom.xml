@@ -6,7 +6,7 @@
 
     <groupId>me.zbenjamin</groupId>
     <artifactId>TptpPlugin</artifactId>
-    <version>1.2</version>
+    <version>1.2.1</version>
     <packaging>jar</packaging>
 
     <name>TptpPlugin</name>

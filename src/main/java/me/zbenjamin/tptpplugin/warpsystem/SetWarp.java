@@ -88,9 +88,17 @@ public class SetWarp implements TabExecutor {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         DecimalFormat decform = new DecimalFormat("#.##");
         if (args.length == 1) {
-            Set<String> warps = WarpConfig.get().getConfigurationSection("warps").getKeys(false);
-            warps.addAll(WarpConfig.get().getConfigurationSection("playerwarps." + ((Player) sender).getUniqueId().toString()).getKeys(false));
-            return new ArrayList<String>(warps);
+            Set<String> warps = null;
+            Set<String> warps2 = null;
+
+            try { warps = Objects.requireNonNull(WarpConfig.get().getConfigurationSection("warps")).getKeys(false); }
+            catch (NullPointerException e){}
+
+            try { warps2 = Objects.requireNonNull(WarpConfig.get().getConfigurationSection("playerwarps." + ((Player) sender).getUniqueId().toString()).getKeys(false)); }
+            catch (NullPointerException e){}
+
+            if (warps2 != null) warps.addAll(warps2);
+            if (warps != null) return new ArrayList<String>(warps);
         }
         if (args.length == 2) return Arrays.asList(decform.format(((Player) sender).getLocation().getX()),"self");
         if (args.length == 3 && args[1] != "self") return Arrays.asList(decform.format(((Player) sender).getLocation().getY()));
