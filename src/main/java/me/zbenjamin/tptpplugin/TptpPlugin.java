@@ -27,13 +27,21 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(this, this);
 
         getCommand("sad").setExecutor(new SadCmd());
-        getCommand("szomoru").setExecutor(new SadCmd());
         getCommand("happy").setExecutor(new HappyCmd());
-        getCommand("boldog").setExecutor(new HappyCmd());
+
         getCommand("tptpconfig").setExecutor(new ConfigCmd());
         getCommand("tptpset").setExecutor(new SetWarp());
         getCommand("tptp").setExecutor(new TpWarp());
+
         getCommand("lobby").setExecutor(new LobbyCmd());
+
+        getCommand("rename").setExecutor(new OtherCommands());
+        getCommand("blockcoord").setExecutor(new OtherCommands());
+        getCommand("getcoord").setExecutor(new OtherCommands());
+        getCommand("maxhealth").setExecutor(new OtherCommands());
+        getCommand("invulnerable").setExecutor(new OtherCommands());
+        getCommand("gcmd").setExecutor(new OtherCommands());
+        getCommand("gbarr").setExecutor(new OtherCommands());
 
         getConfig().addDefault("locale", "hu");
         getConfig().addDefault("tnt-allowed", false);
@@ -56,11 +64,6 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
         WarpConfig.get().addDefault("lobby.p2z", 0);
         WarpConfig.get().addDefault("lobby.protect", false);
 
-        // PLUSZ ÖTLETEK KÉSŐBBRE:
-        // - Google Translate Freemium API-ját használva fordító parancs
-        // - Ránézve egy blokkra sendMessage-elje a koordinátáit
-        // - Item renamer parancs
-
         WarpConfig.get().options().copyDefaults(true);
         WarpConfig.save();
     }
@@ -76,7 +79,7 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
         if (event.getBlock().getType() == Material.TNT){
             if (getConfig().getBoolean("tnt-allowed")){
                 event.setCancelled(true);
-                if (getConfig().getString("locale") == "hu") event.getPlayer()
+                if (getConfig().getString("locale").equals("hu")) event.getPlayer()
                         .sendMessage(ChatColor.RED + "[Tptp Plugin] Nem tudsz TNT-t lehelyezni.");
                 else event.getPlayer().sendMessage(ChatColor.RED + "[Tptp Plugin] You cannot place TNTs.");
             }
@@ -98,7 +101,7 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
                         && plo.getX() <= p2.getX() && plo.getY() <= p2.getY() && plo.getZ() <= p2.getZ()
         ){
             event.setCancelled(true);
-            if (getConfig().getString("locale") == "hu") event.getPlayer()
+            if (getConfig().getString("locale").equals("hu")) event.getPlayer()
                     .sendMessage(ChatColor.RED + "[Tptp Plugin] Nem tudod módosítani a lobbyt.");
             else event.getPlayer().sendMessage(ChatColor.RED + "[Tptp Plugin] You cannot edit the lobby.");
         }
@@ -121,7 +124,7 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
                         && plo.getX() <= p2.getX() && plo.getY() <= p2.getY() && plo.getZ() <= p2.getZ()
         ){
             event.setCancelled(true);
-            if (getConfig().getString("locale") == "hu") event.getPlayer()
+            if (getConfig().getString("locale").equals("hu")) event.getPlayer()
                     .sendMessage(ChatColor.RED + "[Tptp Plugin] Nem tudod módosítani a lobbyt.");
             else event.getPlayer().sendMessage(ChatColor.RED + "[Tptp Plugin] You cannot edit the lobby.");
         }

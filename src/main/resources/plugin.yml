@@ -25,3 +25,19 @@ commands:
   lobby:
     description: Elteleportál a lobbyba, vagy beállítja azt. It teleports you to the lobby, or you can set it.
     usage: /<command> [set [x] [y] [z] | reloadconfig | setprotect <p1 | p2> | protect <on | off>]
+  rename:
+    description: Át tudod nevezni a kezedben lévő tárgyat. You can rename the item in your main hand.
+  getcoord:
+    description: Kiírathatod a koordinátád a chatbe. You can broadcast your coordinate.
+  blockcoord:
+    description: Lekérheted a blokk koordinátáját, amire nézel. You can get the coordinate of the block that you're looking.
+  maxhealth:
+    description: Beállíthatsz maximum életet. You can set maximum health.
+    usage: /<command> [online player]
+  invulnerable:
+    description: Beállíthatsz sérthetetlenséget. You can set invulnerability.
+    usage: /<command> <true/false> [online player]
+  gcmd:
+    description: Ad egy parancsblokkot. It gives you a command block.
+  gbarr:
+    description: Ad egy barriert. It gives you a barrier.
