@@ -31,8 +31,11 @@ commands:
     description: Kiírathatod a koordinátád a chatbe. You can broadcast your coordinate.
   blockcoord:
     description: Lekérheted a blokk koordinátáját, amire nézel. You can get the coordinate of the block that you're looking.
-  maxhealth:
-    description: Beállíthatsz maximum életet. You can set maximum health.
+  heal:
+    description: Feltölti az életpontjaid. It sets the maximum health points.
+    usage: /<command> [online player]
+  feed:
+    description: Feltölti az ételpontjaid. It sets the maximum food points.
     usage: /<command> [online player]
   invulnerable:
     description: Beállíthatsz sérthetetlenséget. You can set invulnerability.

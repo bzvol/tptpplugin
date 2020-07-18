@@ -35,13 +35,13 @@ public class TpWarp implements TabExecutor {
                 return true;
             }
             else{
-                if (pl.getConfig().getString("locale") == "hu") sender.sendMessage("Ilyen pont nem létezik!");
+                if (Objects.requireNonNull(pl.getConfig().getString("locale")).equals("hu")) sender.sendMessage("Ilyen pont nem létezik!");
                 else sender.sendMessage("This point does not exist!");
                 return false;
             }
         }
         else{
-            if (pl.getConfig().getString("locale") == "hu") sender.sendMessage("Csak játékosok használhatják ezt a parancsot!");
+            if (Objects.requireNonNull(pl.getConfig().getString("locale")).equals("hu")) sender.sendMessage("Csak játékosok használhatják ezt a parancsot!");
             else sender.sendMessage("Only players are allowed to use this command!");
             return true;
         }
@@ -54,13 +54,13 @@ public class TpWarp implements TabExecutor {
             Set<String> warps2 = null;
 
             try { warps = Objects.requireNonNull(WarpConfig.get().getConfigurationSection("warps")).getKeys(false); }
-            catch (NullPointerException e){}
+            catch (NullPointerException ignored){}
 
-            try { warps2 = Objects.requireNonNull(WarpConfig.get().getConfigurationSection("playerwarps." + ((Player) sender).getUniqueId().toString()).getKeys(false)); }
-            catch (NullPointerException e){}
+            try { warps2 = Objects.requireNonNull(Objects.requireNonNull(WarpConfig.get().getConfigurationSection("playerwarps." + ((Player) sender).getUniqueId().toString())).getKeys(false)); }
+            catch (NullPointerException ignored){}
 
-            if (warps2 != null) warps.addAll(warps2);
-            if (warps != null) return new ArrayList<String>(warps);
+            if (warps2 != null) Objects.requireNonNull(warps).addAll(warps2);
+            if (warps != null) return new ArrayList<>(warps);
         }
         return null;
     }

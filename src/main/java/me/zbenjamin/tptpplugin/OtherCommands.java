@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Objects;
+
 public class OtherCommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -21,9 +23,10 @@ public class OtherCommands implements CommandExecutor {
                     StringBuilder finalargs = new StringBuilder();
                     for (String arg : args) if (!arg.equals(" ")) finalargs.append(arg).append(" ");
                     finalargs.deleteCharAt(finalargs.length()-1);
-                    ItemMeta im = p.getInventory().getItemInMainHand().getItemMeta();
-                    im.setDisplayName(finalargs.toString());
-                    p.getInventory().getItemInMainHand().setItemMeta(im);
+                    ItemMeta meta = p.getInventory().getItemInMainHand().getItemMeta();
+                    assert meta != null;
+                    meta.setDisplayName(finalargs.toString());
+                    p.getInventory().getItemInMainHand().setItemMeta(meta);
                     return true;
                 }
             }
@@ -44,20 +47,29 @@ public class OtherCommands implements CommandExecutor {
                 return true;
             }
         }
-        else if (label.equalsIgnoreCase("maxhealth")){
+        else if (label.equalsIgnoreCase("heal")){
             if (sender instanceof Player) ((Player) sender).setHealth(20);
-            else Bukkit.getServer().getPlayerExact(args[0]).setHealth(20);
+            else Objects.requireNonNull(Bukkit.getServer().getPlayerExact(args[0])).setHealth(20);
+            return true;
+        }
+        else if (label.equalsIgnoreCase("feed")){
+            if (sender instanceof Player) ((Player) sender).setFoodLevel(20);
+            else Objects.requireNonNull(Bukkit.getServer().getPlayerExact(args[0])).setFoodLevel(20);
+            return true;
         }
         else if (label.equalsIgnoreCase("invulnerable")){
             if (sender instanceof Player) ((Player) sender).setInvulnerable(Boolean.parseBoolean(args[0]));
-            else Bukkit.getServer().getPlayerExact(args[1]).setInvulnerable(Boolean.parseBoolean(args[0]));
+            else Objects.requireNonNull(Bukkit.getServer().getPlayerExact(args[1])).setInvulnerable(Boolean.parseBoolean(args[0]));
+            return true;
         }
 
         else if (label.equalsIgnoreCase("gcmd")) {
             if (sender instanceof Player) ((Player) sender).getInventory().addItem(new ItemStack(Material.COMMAND_BLOCK, 1));
+            return true;
         }
         else if (label.equalsIgnoreCase("gbarr")) {
             if (sender instanceof Player) ((Player) sender).getInventory().addItem(new ItemStack(Material.BARRIER, 1));
+            return true;
         }
         return false;
     }

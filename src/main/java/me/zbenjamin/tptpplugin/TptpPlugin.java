@@ -9,13 +9,14 @@ import me.zbenjamin.tptpplugin.warpsystem.TpWarp;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Objects;
 
 public final class TptpPlugin extends JavaPlugin implements Listener {
 
@@ -26,22 +27,23 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
 
         getServer().getPluginManager().registerEvents(this, this);
 
-        getCommand("sad").setExecutor(new SadCmd());
-        getCommand("happy").setExecutor(new HappyCmd());
+        Objects.requireNonNull(getCommand("sad")).setExecutor(new SadCmd());
+        Objects.requireNonNull(getCommand("happy")).setExecutor(new HappyCmd());
 
-        getCommand("tptpconfig").setExecutor(new ConfigCmd());
-        getCommand("tptpset").setExecutor(new SetWarp());
-        getCommand("tptp").setExecutor(new TpWarp());
+        Objects.requireNonNull(getCommand("tptpconfig")).setExecutor(new ConfigCmd());
+        Objects.requireNonNull(getCommand("tptpset")).setExecutor(new SetWarp());
+        Objects.requireNonNull(getCommand("tptp")).setExecutor(new TpWarp());
 
-        getCommand("lobby").setExecutor(new LobbyCmd());
+        Objects.requireNonNull(getCommand("lobby")).setExecutor(new LobbyCmd());
 
-        getCommand("rename").setExecutor(new OtherCommands());
-        getCommand("blockcoord").setExecutor(new OtherCommands());
-        getCommand("getcoord").setExecutor(new OtherCommands());
-        getCommand("maxhealth").setExecutor(new OtherCommands());
-        getCommand("invulnerable").setExecutor(new OtherCommands());
-        getCommand("gcmd").setExecutor(new OtherCommands());
-        getCommand("gbarr").setExecutor(new OtherCommands());
+        Objects.requireNonNull(getCommand("rename")).setExecutor(new OtherCommands());
+        Objects.requireNonNull(getCommand("blockcoord")).setExecutor(new OtherCommands());
+        Objects.requireNonNull(getCommand("getcoord")).setExecutor(new OtherCommands());
+        Objects.requireNonNull(getCommand("heal")).setExecutor(new OtherCommands());
+        Objects.requireNonNull(getCommand("feed")).setExecutor(new OtherCommands());
+        Objects.requireNonNull(getCommand("invulnerable")).setExecutor(new OtherCommands());
+        Objects.requireNonNull(getCommand("gcmd")).setExecutor(new OtherCommands());
+        Objects.requireNonNull(getCommand("gbarr")).setExecutor(new OtherCommands());
 
         getConfig().addDefault("locale", "hu");
         getConfig().addDefault("tnt-allowed", false);
@@ -75,68 +77,68 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onBlockPlace(BlockPlaceEvent event){
-        if (event.getBlock().getType() == Material.TNT){
-            if (getConfig().getBoolean("tnt-allowed")){
-                event.setCancelled(true);
-                if (getConfig().getString("locale").equals("hu")) event.getPlayer()
-                        .sendMessage(ChatColor.RED + "[Tptp Plugin] Nem tudsz TNT-t lehelyezni.");
-                else event.getPlayer().sendMessage(ChatColor.RED + "[Tptp Plugin] You cannot place TNTs.");
-            }
-        }
-        Location p1 = new Location(
-                event.getPlayer().getWorld(),
-                WarpConfig.get().getInt("lobby.p1x"),
-                WarpConfig.get().getInt("lobby.p1y"),
-                WarpConfig.get().getInt("lobby.p1z"));
-        Location p2 = new Location(
-                event.getPlayer().getWorld(),
-                WarpConfig.get().getInt("lobby.p2x"),
-                WarpConfig.get().getInt("lobby.p2y"),
-                WarpConfig.get().getInt("lobby.p2z"));
-        Location plo = event.getPlayer().getLocation();
-        if (
-                event.getPlayer().getWorld().getName().equalsIgnoreCase("flatworld")
-                        && plo.getX() >= p1.getX() && plo.getY() >= p1.getY() && plo.getZ() >= p1.getZ()
-                        && plo.getX() <= p2.getX() && plo.getY() <= p2.getY() && plo.getZ() <= p2.getZ()
-        ){
-            event.setCancelled(true);
-            if (getConfig().getString("locale").equals("hu")) event.getPlayer()
-                    .sendMessage(ChatColor.RED + "[Tptp Plugin] Nem tudod módosítani a lobbyt.");
-            else event.getPlayer().sendMessage(ChatColor.RED + "[Tptp Plugin] You cannot edit the lobby.");
-        }
-    }
-    public void OnBlockDestroy(BlockBreakEvent event){
-        Location p1 = new Location(
-                event.getPlayer().getWorld(),
-                WarpConfig.get().getInt("lobby.p1x"),
-                WarpConfig.get().getInt("lobby.p1y"),
-                WarpConfig.get().getInt("lobby.p1z"));
-        Location p2 = new Location(
-                event.getPlayer().getWorld(),
-                WarpConfig.get().getInt("lobby.p2x"),
-                WarpConfig.get().getInt("lobby.p2y"),
-                WarpConfig.get().getInt("lobby.p2z"));
-        Location plo = event.getPlayer().getLocation();
-        if (
-                event.getPlayer().getWorld().getName().equalsIgnoreCase("flatworld")
-                        && plo.getX() >= p1.getX() && plo.getY() >= p1.getY() && plo.getZ() >= p1.getZ()
-                        && plo.getX() <= p2.getX() && plo.getY() <= p2.getY() && plo.getZ() <= p2.getZ()
-        ){
-            event.setCancelled(true);
-            if (getConfig().getString("locale").equals("hu")) event.getPlayer()
-                    .sendMessage(ChatColor.RED + "[Tptp Plugin] Nem tudod módosítani a lobbyt.");
-            else event.getPlayer().sendMessage(ChatColor.RED + "[Tptp Plugin] You cannot edit the lobby.");
-        }
-    }
-
-    @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e){
         if (getConfig().getBoolean("customjoinmessage")){
-            e.setJoinMessage(ChatColor.GOLD + getConfig().getString("joinmessage")
+            e.setJoinMessage(ChatColor.GOLD + Objects.requireNonNull(getConfig().getString("joinmessage"))
                     .replace('_', ' ')
                     .replace("%%player%%", ChatColor.WHITE
                             + e.getPlayer().getDisplayName() + ChatColor.GOLD));
         }
     }
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event){
+        if (event.getBlock().getType() == Material.TNT){
+            if (!getConfig().getBoolean("tnt-allowed")){
+                event.setCancelled(true);
+                if (Objects.equals(getConfig().getString("locale"), "hu")) event.getPlayer()
+                        .sendMessage(ChatColor.RED + "[Tptp Plugin] Nem tudsz TNT-t lehelyezni.");
+                else event.getPlayer().sendMessage(ChatColor.RED + "[Tptp Plugin] You cannot place TNTs.");
+            }
+        }/*
+        Location p1 = new Location(
+                event.getPlayer().getWorld(),
+                WarpConfig.get().getInt("lobby.p1x"),
+                WarpConfig.get().getInt("lobby.p1y"),
+                WarpConfig.get().getInt("lobby.p1z"));
+        Location p2 = new Location(
+                event.getPlayer().getWorld(),
+                WarpConfig.get().getInt("lobby.p2x"),
+                WarpConfig.get().getInt("lobby.p2y"),
+                WarpConfig.get().getInt("lobby.p2z"));
+        Location plo = event.getPlayer().getLocation();
+        if (
+                event.getPlayer().getWorld().getName().equalsIgnoreCase("flatworld")
+                        && plo.getX() >= p1.getX() && plo.getY() >= p1.getY() && plo.getZ() >= p1.getZ()
+                        && plo.getX() <= p2.getX() && plo.getY() <= p2.getY() && plo.getZ() <= p2.getZ()
+        ){
+            event.setCancelled(true);
+            if (Objects.equals(getConfig().getString("locale"), "hu")) event.getPlayer()
+                    .sendMessage(ChatColor.RED + "[Tptp Plugin] Nem tudod módosítani a lobbyt.");
+            else event.getPlayer().sendMessage(ChatColor.RED + "[Tptp Plugin] You cannot edit the lobby.");
+        }*/
+    }
+/*
+    public void OnBlockBreak(BlockBreakEvent event){
+        Location p1 = new Location(
+                event.getPlayer().getWorld(),
+                WarpConfig.get().getInt("lobby.p1x"),
+                WarpConfig.get().getInt("lobby.p1y"),
+                WarpConfig.get().getInt("lobby.p1z"));
+        Location p2 = new Location(
+                event.getPlayer().getWorld(),
+                WarpConfig.get().getInt("lobby.p2x"),
+                WarpConfig.get().getInt("lobby.p2y"),
+                WarpConfig.get().getInt("lobby.p2z"));
+        Location plo = event.getPlayer().getLocation();
+        if (
+                event.getPlayer().getWorld().getName().equalsIgnoreCase("flatworld")
+                        && plo.getX() >= p1.getX() && plo.getY() >= p1.getY() && plo.getZ() >= p1.getZ()
+                        && plo.getX() <= p2.getX() && plo.getY() <= p2.getY() && plo.getZ() <= p2.getZ()
+        ){
+            event.setCancelled(true);
+            if (Objects.equals(getConfig().getString("locale"), "hu")) event.getPlayer()
+                    .sendMessage(ChatColor.RED + "[Tptp Plugin] Nem tudod módosítani a lobbyt.");
+            else event.getPlayer().sendMessage(ChatColor.RED + "[Tptp Plugin] You cannot edit the lobby.");
+        }
+    }*/
 }

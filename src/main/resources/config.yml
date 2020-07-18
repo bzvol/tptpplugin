@@ -1,0 +1,4 @@
+locale: "hu"
+tnt-allowed: false
+customjoinmessage: true
+joinmessage: "Má' megin' itt van ez a %%player%%"
