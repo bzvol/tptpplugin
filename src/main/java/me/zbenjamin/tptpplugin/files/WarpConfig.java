@@ -7,14 +7,15 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class WarpConfig {
     private static File file;
     private static FileConfiguration warpcFile;
 
     public static void setup(){
-        file = new File(Bukkit.getServer().getPluginManager()
-                .getPlugin("TptpPlugin").getDataFolder(),
+        file = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager()
+                .getPlugin("TptpPlugin")).getDataFolder(),
                 "warps.yml");
 
         if (!file.exists()){
@@ -22,8 +23,8 @@ public class WarpConfig {
                 file.createNewFile();
             }
             catch (IOException e){
-                if (TptpPlugin.getPlugin(TptpPlugin.class)
-                        .getConfig().getString("locale") == "hu") System.out.println("Nem lehetett létrehozni a warps.yml fájlt");
+                if (Objects.requireNonNull(TptpPlugin.getPlugin(TptpPlugin.class)
+                        .getConfig().getString("locale")).equals("hu")) System.out.println("Nem lehetett létrehozni a warps.yml fájlt");
                 else System.out.println("Couldn't create the warps.yml file");
             }
         }
@@ -35,8 +36,8 @@ public class WarpConfig {
     public static void save(){
         try{ warpcFile.save(file); }
         catch (IOException e){
-            if (TptpPlugin.getPlugin(TptpPlugin.class)
-                    .getConfig().getString("locale") == "hu") System.out.println("Nem lehetett elmenteni a fájlt");
+            if (Objects.requireNonNull(TptpPlugin.getPlugin(TptpPlugin.class)
+                    .getConfig().getString("locale")).equals("hu")) System.out.println("Nem lehetett elmenteni a fájlt");
             else System.out.println("Couldn't save the file");
         }
     }
