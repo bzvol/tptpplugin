@@ -22,6 +22,9 @@ commands:
   tptp:
     description: Az elmentett TP pontokra tudsz teleportálni. You can teleport to saved TP points.
     usage: /<command> <név/name>
+  tptpsign:
+    description: Egy táblát warp-táblává alakít át. It makes a sign to a warp-sign.
+    usage: /<command>
   lobby:
     description: Elteleportál a lobbyba, vagy beállítja azt. It teleports you to the lobby, or you can set it.
     usage: /<command> [set [x] [y] [z] | reloadconfig | setprotect <p1 | p2> | protect <on | off>]

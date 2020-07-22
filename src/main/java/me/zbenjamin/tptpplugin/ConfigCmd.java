@@ -4,29 +4,26 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class ConfigCmd implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Plugin pl = TptpPlugin.getPlugin(TptpPlugin.class);
         if (args.length == 0) return false;
         switch (args[0]) {
             case "save":
                 TptpPlugin.getPlugin(TptpPlugin.class).saveConfig();
-                if (Objects.equals(pl.getConfig().getString("locale"), "hu"))
+                if (Methods.getLocaleHu())
                     sender.sendMessage("[Tptp Plugin] A konfiguráció sikeresen elmentve.");
                 else sender.sendMessage("[Tptp Plugin] Config saved successfully.");
                 return true;
             case "reload":
                 TptpPlugin.getPlugin(TptpPlugin.class).reloadConfig();
-                if (Objects.equals(pl.getConfig().getString("locale"), "hu"))
+                if (Methods.getLocaleHu())
                     sender.sendMessage("[Tptp Plugin] A konfiguráció újratöltve.");
                 else sender.sendMessage("[Tptp Plugin] Config reloaded.");
                 return true;
@@ -34,7 +31,7 @@ public class ConfigCmd implements TabExecutor {
                 if (args[1].equals("locale") || args[1].equals("joinmessage")) {
                     TptpPlugin.getPlugin(TptpPlugin.class).getConfig().set(args[1], args[2]);
                     TptpPlugin.getPlugin(TptpPlugin.class).saveConfig();
-                    if (Objects.equals(pl.getConfig().getString("locale"), "hu"))
+                    if (Methods.getLocaleHu())
                         sender.sendMessage(ChatColor.WHITE + "[Tptp Plugin] "
                                 + ChatColor.BLUE + args[1] + ChatColor.WHITE + "-t sikeresen " + ChatColor.BLUE + args[2] + ChatColor.WHITE + " értékre állítottad.");
                     else
@@ -44,7 +41,7 @@ public class ConfigCmd implements TabExecutor {
                 } else if (args[1].equals("tnt-allowed") || args[1].equals("customjoinmessage")) {
                     TptpPlugin.getPlugin(TptpPlugin.class).getConfig().set(args[1], Boolean.parseBoolean(args[2]));
                     TptpPlugin.getPlugin(TptpPlugin.class).saveConfig();
-                    if (Objects.equals(pl.getConfig().getString("locale"), "hu"))
+                    if (Methods.getLocaleHu())
                         sender.sendMessage(ChatColor.WHITE + "[Tptp Plugin] "
                                 + ChatColor.BLUE + args[1] + ChatColor.WHITE + "-t sikeresen " + ChatColor.BLUE + args[2] + ChatColor.WHITE + " értékre állítottad.");
                     else

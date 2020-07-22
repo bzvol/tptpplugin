@@ -1,6 +1,6 @@
 package me.zbenjamin.tptpplugin.files;
 
-import me.zbenjamin.tptpplugin.TptpPlugin;
+import me.zbenjamin.tptpplugin.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -23,8 +23,7 @@ public class WarpConfig {
                 file.createNewFile();
             }
             catch (IOException e){
-                if (Objects.requireNonNull(TptpPlugin.getPlugin(TptpPlugin.class)
-                        .getConfig().getString("locale")).equals("hu")) System.out.println("Nem lehetett létrehozni a warps.yml fájlt");
+                if (Methods.getLocaleHu()) System.out.println("Nem lehetett létrehozni a warps.yml fájlt");
                 else System.out.println("Couldn't create the warps.yml file");
             }
         }
@@ -36,8 +35,7 @@ public class WarpConfig {
     public static void save(){
         try{ warpcFile.save(file); }
         catch (IOException e){
-            if (Objects.requireNonNull(TptpPlugin.getPlugin(TptpPlugin.class)
-                    .getConfig().getString("locale")).equals("hu")) System.out.println("Nem lehetett elmenteni a fájlt");
+            if (Methods.getLocaleHu()) System.out.println("Nem lehetett elmenteni a fájlt");
             else System.out.println("Couldn't save the file");
         }
     }

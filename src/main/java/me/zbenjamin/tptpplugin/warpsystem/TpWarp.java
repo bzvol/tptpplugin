@@ -1,13 +1,12 @@
 package me.zbenjamin.tptpplugin.warpsystem;
 
-import me.zbenjamin.tptpplugin.TptpPlugin;
+import me.zbenjamin.tptpplugin.Methods;
 import me.zbenjamin.tptpplugin.files.WarpConfig;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,6 @@ import java.util.Set;
 public class TpWarp implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Plugin pl = TptpPlugin.getPlugin(TptpPlugin.class);
         if (sender instanceof Player){
             if (args.length == 0) return false;
             if(WarpConfig.get().contains("warps." + args[0])){
@@ -35,13 +33,13 @@ public class TpWarp implements TabExecutor {
                 return true;
             }
             else{
-                if (Objects.requireNonNull(pl.getConfig().getString("locale")).equals("hu")) sender.sendMessage("Ilyen pont nem létezik!");
+                if (Methods.getLocaleHu()) sender.sendMessage("Ilyen pont nem létezik!");
                 else sender.sendMessage("This point does not exist!");
                 return false;
             }
         }
         else{
-            if (Objects.requireNonNull(pl.getConfig().getString("locale")).equals("hu")) sender.sendMessage("Csak játékosok használhatják ezt a parancsot!");
+            if (Methods.getLocaleHu()) sender.sendMessage("Csak játékosok használhatják ezt a parancsot!");
             else sender.sendMessage("Only players are allowed to use this command!");
             return true;
         }

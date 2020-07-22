@@ -5,6 +5,7 @@ import me.zbenjamin.tptpplugin.emotes.SadCmd;
 import me.zbenjamin.tptpplugin.files.WarpConfig;
 import me.zbenjamin.tptpplugin.warpsystem.LobbyCmd;
 import me.zbenjamin.tptpplugin.warpsystem.SetWarp;
+import me.zbenjamin.tptpplugin.warpsystem.TpSign;
 import me.zbenjamin.tptpplugin.warpsystem.TpWarp;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -13,9 +14,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,6 +40,7 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
         Objects.requireNonNull(getCommand("tptpconfig")).setExecutor(new ConfigCmd());
         Objects.requireNonNull(getCommand("tptpset")).setExecutor(new SetWarp());
         Objects.requireNonNull(getCommand("tptp")).setExecutor(new TpWarp());
+        Objects.requireNonNull(getCommand("tptpsign")).setExecutor(new TpSign());
 
         Objects.requireNonNull(getCommand("lobby")).setExecutor(new LobbyCmd());
 
@@ -85,34 +85,6 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onSignChanged(SignChangeEvent e){
-        if (Objects.requireNonNull(e.getLine(0)).equalsIgnoreCase("Tptp")){
-            if (
-                   WarpConfig.get().contains("warps." + Objects.requireNonNull(e.getLine(1)))
-                           && !Objects.requireNonNull(e.getLine(2)).equalsIgnoreCase("")
-            ) {
-                e.setLine(0, "§f[§1Tptp§f]");
-                e.setLine(3, "§7(" + Objects.requireNonNull(e.getLine(1)) + ")");
-                e.setLine(1, "§r" + e.getLine(2));
-                e.setLine(2, "");
-            }
-            else{
-                e.setLine(0, "");
-                if (Objects.equals(getConfig().getString("locale"), "hu")) {
-                    e.setLine(1, "§4Ez a Tptp");
-                    e.setLine(2, "§4nem létezik.");
-                }
-                else{
-                    e.setLine(1, "§4This Tptp does");
-                    e.setLine(2, "§4not exists.");
-                }
-                e.setLine(3, "");
-            }
-        }
-        else return;
-    }
-
-    @EventHandler
     public void onPlayerClickedBlock(PlayerInteractEvent e){
         if (
                 e.getAction().equals(Action.RIGHT_CLICK_BLOCK)
@@ -144,7 +116,7 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
         if (e.getBlock().getType() == Material.TNT){
             if (!getConfig().getBoolean("tnt-allowed")){
                 e.setCancelled(true);
-                if (Objects.equals(getConfig().getString("locale"), "hu")) e.getPlayer()
+                if (Methods.getLocaleHu()) e.getPlayer()
                         .sendMessage(ChatColor.RED + "[Tptp Plugin] Nem tudsz TNT-t lehelyezni.");
                 else e.getPlayer().sendMessage(ChatColor.RED + "[Tptp Plugin] You cannot place TNTs.");
             }
@@ -166,7 +138,7 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
                         && plo.getX() <= p2.getX() && plo.getY() <= p2.getY() && plo.getZ() <= p2.getZ()
         ){
             event.setCancelled(true);
-            if (Objects.equals(getConfig().getString("locale"), "hu")) event.getPlayer()
+            if (Methods.getLocaleHu()) event.getPlayer()
                     .sendMessage(ChatColor.RED + "[Tptp Plugin] Nem tudod módosítani a lobbyt.");
             else event.getPlayer().sendMessage(ChatColor.RED + "[Tptp Plugin] You cannot edit the lobby.");
         }
@@ -209,7 +181,7 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
                         && plo.getX() <= p2.getX() && plo.getY() <= p2.getY() && plo.getZ() <= p2.getZ()
         ){
             event.setCancelled(true);
-            if (Objects.equals(getConfig().getString("locale"), "hu")) event.getPlayer()
+            if (Methods.getLocaleHu()) event.getPlayer()
                     .sendMessage(ChatColor.RED + "[Tptp Plugin] Nem tudod módosítani a lobbyt.");
             else event.getPlayer().sendMessage(ChatColor.RED + "[Tptp Plugin] You cannot edit the lobby.");
         }

@@ -1,6 +1,6 @@
 package me.zbenjamin.tptpplugin.emotes;
 
-import me.zbenjamin.tptpplugin.TptpPlugin;
+import me.zbenjamin.tptpplugin.Methods;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
@@ -16,40 +16,35 @@ public class SadCmd implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(args.length == 0){
             if (sender instanceof Player) {
-                if (Objects.requireNonNull(TptpPlugin.getPlugin(TptpPlugin.class)
-                        .getConfig().getString("locale")).equals("hu")) Bukkit.getServer().broadcastMessage(ChatColor.WHITE +
+                if (Methods.getLocaleHu()) Bukkit.getServer().broadcastMessage(ChatColor.WHITE +
                         ((Player) sender).getDisplayName() + ChatColor.DARK_AQUA + ChatColor.BOLD + " szomorú :(");
                 else Bukkit.getServer().broadcastMessage(ChatColor.WHITE +
                         ((Player) sender).getDisplayName() + ChatColor.DARK_AQUA + ChatColor.BOLD + " is sad :(");
                 return true;
             }
             else if (sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender){
-                if (Objects.requireNonNull(TptpPlugin.getPlugin(TptpPlugin.class)
-                        .getConfig().getString("locale")).equals("hu")) Bukkit.getServer().broadcastMessage(ChatColor.WHITE +
+                if (Methods.getLocaleHu()) Bukkit.getServer().broadcastMessage(ChatColor.WHITE +
                         "A konzol" + ChatColor.DARK_AQUA + ChatColor.BOLD + " szomorú :(");
                 else Bukkit.getServer().broadcastMessage(ChatColor.WHITE +
                         "The console" + ChatColor.DARK_AQUA + ChatColor.BOLD + " is sad :(");
                 return true;
             }
             else if (sender instanceof BlockCommandSender){
-                if (Objects.requireNonNull(TptpPlugin.getPlugin(TptpPlugin.class)
-                        .getConfig().getString("locale")).equals("hu")) Bukkit.getServer().broadcastMessage(ChatColor.WHITE +
+                if (Methods.getLocaleHu()) Bukkit.getServer().broadcastMessage(ChatColor.WHITE +
                         "Egy parancsblokk" + ChatColor.DARK_AQUA + ChatColor.BOLD + " szomorú :(");
                 else Bukkit.getServer().broadcastMessage(ChatColor.WHITE +
                         "A command block" + ChatColor.DARK_AQUA + ChatColor.BOLD + " is sad :(");
                 return true;
             }
             else {
-                if (Objects.requireNonNull(TptpPlugin.getPlugin(TptpPlugin.class)
-                        .getConfig().getString("locale")).equals("hu")) System.out.println("Csak játékosok használhatják ezt a parancsot.");
+                if (Methods.getLocaleHu()) System.out.println("Csak játékosok használhatják ezt a parancsot.");
                 else System.out.println("Only players are allowed to use this command.");
                 return true;
             }
         }
         else{
             if (Bukkit.getServer().getPlayerExact(args[0]) != null) {
-                if (Objects.requireNonNull(TptpPlugin.getPlugin(TptpPlugin.class)
-                        .getConfig().getString("locale")).equals("hu")) Bukkit.getServer().broadcastMessage(ChatColor.WHITE +
+                if (Methods.getLocaleHu()) Bukkit.getServer().broadcastMessage(ChatColor.WHITE +
                         Objects.requireNonNull(Bukkit.getServer().getPlayer(args[0])).getDisplayName() + ChatColor.DARK_AQUA + ChatColor.BOLD + " szomorú :(");
                 else Bukkit.getServer().broadcastMessage(ChatColor.WHITE +
                         Objects.requireNonNull(Bukkit.getServer().getPlayer(args[0])).getDisplayName() + ChatColor.DARK_AQUA + ChatColor.BOLD + " is sad :(");
@@ -57,13 +52,11 @@ public class SadCmd implements TabExecutor {
             }
             else{
                 if (sender instanceof Player) {
-                    if (Objects.requireNonNull(TptpPlugin.getPlugin(TptpPlugin.class)
-                            .getConfig().getString("locale")).equals("hu")) sender.sendMessage("A játékos nincs a szerveren.");
+                    if (Methods.getLocaleHu()) sender.sendMessage("A játékos nincs a szerveren.");
                     else sender.sendMessage("The player isn't on the server.");
                 }
                 else {
-                    if (Objects.requireNonNull(TptpPlugin.getPlugin(TptpPlugin.class)
-                            .getConfig().getString("locale")).equals("hu")) System.out.println("A játékos nincs a szerveren.");
+                    if (Methods.getLocaleHu()) System.out.println("A játékos nincs a szerveren.");
                     else System.out.println("The player isn't on the server.");
                 }
                 return false;
