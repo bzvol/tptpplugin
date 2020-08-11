@@ -1,6 +1,8 @@
 package me.zbenjamin.tptpplugin.warpsystem;
 
 import me.zbenjamin.tptpplugin.Methods;
+import me.zbenjamin.tptpplugin.enums.BroadcastType;
+import me.zbenjamin.tptpplugin.enums.MessageType;
 import me.zbenjamin.tptpplugin.files.WarpConfig;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -25,9 +27,11 @@ public class SetWarp implements TabExecutor {
                 WarpConfig.save();
                 WarpConfig.reload();
 
-                if (Methods.getLocaleHu())
-                    p.sendMessage(ChatColor.BLUE + args[0] + ChatColor.WHITE + " pont sikeresen beállítva!");
-                else p.sendMessage(ChatColor.BLUE + args[0] + ChatColor.WHITE + " point has been set up successfully!");
+                Methods.langBasedMessage(
+                        ChatColor.BLUE + args[0] + ChatColor.WHITE + " pont sikeresen beállítva!",
+                        ChatColor.BLUE + args[0] + ChatColor.WHITE + " point has been set up successfully!",
+                        BroadcastType.Sender, MessageType.Info, sender
+                );
 
                 return true;
             }
@@ -39,9 +43,11 @@ public class SetWarp implements TabExecutor {
                 WarpConfig.save();
                 WarpConfig.reload();
 
-                if (Methods.getLocaleHu())
-                    sender.sendMessage(ChatColor.BLUE + args[0] + ChatColor.WHITE + " pont sikeresen beállítva!");
-                else sender.sendMessage(ChatColor.BLUE + args[0] + ChatColor.WHITE + " point has been set up successfully!");
+                Methods.langBasedMessage(
+                        ChatColor.BLUE + args[0] + ChatColor.WHITE + " pont sikeresen beállítva!",
+                        ChatColor.BLUE + args[0] + ChatColor.WHITE + " point has been set up successfully!",
+                        BroadcastType.Sender, MessageType.Info, sender
+                );
 
                 return true;
             }
@@ -54,9 +60,11 @@ public class SetWarp implements TabExecutor {
                 WarpConfig.save();
                 WarpConfig.reload();
 
-                if (Methods.getLocaleHu())
-                    p.sendMessage(ChatColor.DARK_AQUA + args[0] + ChatColor.WHITE + " saját pont sikeresen beállítva!");
-                else p.sendMessage(ChatColor.DARK_AQUA + args[0] + ChatColor.WHITE + " own point has been set up successfully!");
+                Methods.langBasedMessage(
+                        ChatColor.DARK_AQUA + args[0] + ChatColor.WHITE + " saját pont sikeresen beállítva!",
+                        ChatColor.DARK_AQUA + args[0] + ChatColor.WHITE + " own point has been set up successfully!",
+                        BroadcastType.Sender, MessageType.Info, sender
+                );
 
                 return true;
             }
@@ -68,18 +76,22 @@ public class SetWarp implements TabExecutor {
                 WarpConfig.save();
                 WarpConfig.reload();
 
-                if (Methods.getLocaleHu())
-                    sender.sendMessage(ChatColor.DARK_AQUA + args[0] + ChatColor.WHITE + " saját pont sikeresen beállítva!");
-                else sender.sendMessage(ChatColor.DARK_AQUA + args[0] + ChatColor.WHITE + " own point has been set up successfully!");
+                Methods.langBasedMessage(
+                        ChatColor.DARK_AQUA + args[0] + ChatColor.WHITE + " saját pont sikeresen beállítva!",
+                        ChatColor.DARK_AQUA + args[0] + ChatColor.WHITE + " own point has been set up successfully!",
+                        BroadcastType.Sender, MessageType.Info, sender
+                );
 
                 return true;
             }
             else return false;
         }
         else{
-            if (Methods.getLocaleHu()) System.out
-                    .println("Csak játékosok használhatják ezt a parancsot.");
-            else System.out.println("Only players are allowed to use this command.");
+            Methods.langBasedMessage(
+                    "Csak játékosok használhatják ezt a parancsot.",
+                    "Only players are allowed to use this command.",
+                    BroadcastType.Sender, MessageType.Error, sender
+            );
             return true;
         }
     }

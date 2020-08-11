@@ -1,8 +1,9 @@
 package me.zbenjamin.tptpplugin.warpsystem;
 
 import me.zbenjamin.tptpplugin.Methods;
+import me.zbenjamin.tptpplugin.enums.BroadcastType;
+import me.zbenjamin.tptpplugin.enums.MessageType;
 import me.zbenjamin.tptpplugin.files.WarpConfig;
-import org.bukkit.ChatColor;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -46,14 +47,19 @@ public class TpSign implements CommandExecutor {
                 }
             }
             else{
-                if (Methods.getLocaleHu()) sender
-                        .sendMessage(ChatColor.RED + "Nem található tábla.");
-                else sender.sendMessage(ChatColor.RED + "Can't find any sign.");
+                Methods.langBasedMessage(
+                        "Nem található tábla.",
+                        "Can't find any sign.",
+                        BroadcastType.Sender, MessageType.Error, sender
+                );
             }
         }
         else{
-            if (Methods.getLocaleHu()) sender.sendMessage("Csak játékosok használhatják ezt a parancsot.");
-            else sender.sendMessage("Only players are allowed to use this command.");
+            Methods.langBasedMessage(
+                    "Csak játékosok használhatják ezt a parancsot.",
+                    "Only players are allowed to use this command.",
+                    BroadcastType.Sender, MessageType.Error, sender
+            );
         }
         return true;
     }

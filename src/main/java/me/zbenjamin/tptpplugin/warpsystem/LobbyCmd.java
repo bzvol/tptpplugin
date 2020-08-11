@@ -1,6 +1,8 @@
 package me.zbenjamin.tptpplugin.warpsystem;
 
 import me.zbenjamin.tptpplugin.Methods;
+import me.zbenjamin.tptpplugin.enums.BroadcastType;
+import me.zbenjamin.tptpplugin.enums.MessageType;
 import me.zbenjamin.tptpplugin.files.WarpConfig;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -31,8 +33,11 @@ public class LobbyCmd implements TabExecutor {
                     WarpConfig.get().set("lobby.x", x);
                     WarpConfig.get().set("lobby.y", y);
                     WarpConfig.get().set("lobby.z", z);
-                    if (Methods.getLocaleHu()) sender.sendMessage("A lobby sikeresen beállítva!");
-                    else sender.sendMessage("You have set the lobby successfully!");
+                    Methods.langBasedMessage(
+                            "A lobby sikeresen beállítva!",
+                            "You have set the lobby successfully!",
+                            BroadcastType.Sender, MessageType.Info, sender
+                    );
                     return true;
                 }
                 else if (args.length == 4 && args[0].equals("set")){
@@ -40,15 +45,21 @@ public class LobbyCmd implements TabExecutor {
                     WarpConfig.get().set("lobby.x", x);
                     WarpConfig.get().set("lobby.y", y);
                     WarpConfig.get().set("lobby.z", z);
-                    if (Methods.getLocaleHu()) sender.sendMessage("A lobby sikeresen beállítva!");
-                    else sender.sendMessage("You have set the lobby successfully!");
+                    Methods.langBasedMessage(
+                            "A lobby sikeresen beállítva!",
+                            "You have set the lobby successfully!",
+                            BroadcastType.Sender, MessageType.Info, sender
+                    );
                     return true;
                 }
                 else if (args[0].equals("reloadconfig")){
                     WarpConfig.save();
                     WarpConfig.reload();
-                    if (Methods.getLocaleHu()) sender.sendMessage("[Tptp Plugin] A konfiguráció elmentve és újratöltve.");
-                    else sender.sendMessage("[Tptp Plugin] Config saved and reloaded.");
+                    Methods.langBasedMessage(
+                            "A konfiguráció elmentve és újratöltve.",
+                            "Config saved and reloaded.",
+                            BroadcastType.Sender, MessageType.Info, sender
+                    );
                     return true;
                 }
                 else if (args[0].equals("setprotect") && (args[1].equals("p1") || args[1].equals("p2"))){
@@ -56,28 +67,40 @@ public class LobbyCmd implements TabExecutor {
                     WarpConfig.get().set("lobby." + args[1] + "x", p.getX());
                     WarpConfig.get().set("lobby." + args[1] + "y", p.getY());
                     WarpConfig.get().set("lobby." + args[1] + "z", p.getZ());
-                    if (Methods.getLocaleHu()) sender.sendMessage("A lobby " + args[1] + " pontja sikeresen beállítva!");
-                    else sender.sendMessage("You have set the " + args[1] + " point of the lobby successfully!");
+                    Methods.langBasedMessage(
+                            "A lobby " + args[1] + " pontja sikeresen beállítva!",
+                            "You have set the " + args[1] + " point of the lobby successfully!",
+                            BroadcastType.Sender, MessageType.Info, sender
+                    );
                     return true;
                 }
                 else if (args[0].equals("protect") && args[1].equals("on")){
                     WarpConfig.get().set("lobby.protect", true);
-                    if (Methods.getLocaleHu()) sender.sendMessage("A lobby védelme bekapcsolva.");
-                    else sender.sendMessage("The protection of lobby is on.");
+                    Methods.langBasedMessage(
+                            "A lobby védelme bekapcsolva.",
+                            "The protection of lobby is on.",
+                            BroadcastType.Sender, MessageType.Info, sender
+                    );
                     return true;
                 }
                 else if (args[0].equals("protect") && args[1].equals("off")){
                     WarpConfig.get().set("lobby.protect", false);
-                    if (Methods.getLocaleHu()) sender.sendMessage("A lobby védelme kikapcsolva.");
-                    else sender.sendMessage("The protection of lobby is off.");
+                    Methods.langBasedMessage(
+                            "A lobby védelme kikapcsolva.",
+                            "The protection of lobby is off.",
+                            BroadcastType.Sender, MessageType.Info, sender
+                    );
                     return true;
                 }
                 else return false;
             }
         }
         else{
-            if (Methods.getLocaleHu()) sender.sendMessage("Csak játékosok használhatják ezt a parancsot!");
-            else sender.sendMessage("Only players are allowed to use this command!");
+            Methods.langBasedMessage(
+                    "Csak játékosok használhatják ezt a parancsot!",
+                    "Only players are allowed to use this command!",
+                    BroadcastType.Sender, MessageType.Error, sender
+            );
             return true;
         }
     }

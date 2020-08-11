@@ -20,6 +20,7 @@ public class WarpConfig {
 
         if (!file.exists()){
             try {
+                //noinspection ResultOfMethodCallIgnored
                 file.createNewFile();
             }
             catch (IOException e){

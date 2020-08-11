@@ -19,6 +19,9 @@ commands:
   tptpset:
     description: TP pontokat tudsz elmenteni, akár csak saját magadnak is. You can save TP points, even only for yourself.
     usage: /<command> <név/name> [x] [y] [z] [self]
+  tptpremove:
+    description: TP pontokat tudsz kitörölni. You can remove TP points.
+    usage: /<command> <név/name>
   tptp:
     description: Az elmentett TP pontokra tudsz teleportálni. You can teleport to saved TP points.
     usage: /<command> <név/name>
@@ -30,10 +33,13 @@ commands:
     usage: /<command> [set [x] [y] [z] | reloadconfig | setprotect <p1 | p2> | protect <on | off>]
   rename:
     description: Át tudod nevezni a kezedben lévő tárgyat. You can rename the item in your main hand.
-  getcoord:
+    usage: /<command> <név/name>
+  getcoords:
     description: Kiírathatod a koordinátád a chatbe. You can broadcast your coordinate.
-  blockcoord:
+    usage: /<command>
+  blockcoords:
     description: Lekérheted a blokk koordinátáját, amire nézel. You can get the coordinate of the block that you're looking.
+    usage: /<command>
   heal:
     description: Feltölti az életpontjaid. It sets the maximum health points.
     usage: /<command> [online player]
@@ -45,5 +51,10 @@ commands:
     usage: /<command> <true/false> [online player]
   gcmd:
     description: Ad egy parancsblokkot. It gives you a command block.
+    usage: /<command>
   gbarr:
     description: Ad egy barriert. It gives you a barrier.
+    usage: /<command>
+  killitems:
+    description: Kitörli a tárgyakat. It removes all item entities.
+    usage: /<command>

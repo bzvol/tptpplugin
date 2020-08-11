@@ -1,4 +1,5 @@
 locale: "hu"
-tnt-allowed: false
+block-explodes-allowed: false
+entity-explodes-allowed: true
 customjoinmessage: true
 joinmessage: "Má' megin' itt van ez a %%player%%"

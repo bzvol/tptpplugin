@@ -1,6 +1,8 @@
 package me.zbenjamin.tptpplugin.warpsystem;
 
 import me.zbenjamin.tptpplugin.Methods;
+import me.zbenjamin.tptpplugin.enums.BroadcastType;
+import me.zbenjamin.tptpplugin.enums.MessageType;
 import me.zbenjamin.tptpplugin.files.WarpConfig;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -25,7 +27,7 @@ public class TpWarp implements TabExecutor {
                 ((Player) sender).teleport(new Location(((Player) sender).getWorld(), x, y, z));
                 return true;
             }
-            else if(WarpConfig.get().contains("playerwarps." + ((Player) sender).getUniqueId() + "." + args[0])){
+            else if(WarpConfig.get().contains("playerwarps." + ((Player) sender).getUniqueId().toString() + "." + args[0])){
                 double x = WarpConfig.get().getDouble("playerwarps." + ((Player) sender).getUniqueId() + "." + args[0] + ".x"),
                         y = WarpConfig.get().getDouble("playerwarps." + ((Player) sender).getUniqueId() + "." + args[0] + ".y"),
                         z = WarpConfig.get().getDouble("playerwarps." + ((Player) sender).getUniqueId() + "." + args[0] + ".z");
@@ -33,14 +35,20 @@ public class TpWarp implements TabExecutor {
                 return true;
             }
             else{
-                if (Methods.getLocaleHu()) sender.sendMessage("Ilyen pont nem létezik!");
-                else sender.sendMessage("This point does not exist!");
+                Methods.langBasedMessage(
+                        "Ilyen pont nem létezik!",
+                        "This point does not exist!",
+                        BroadcastType.Sender, MessageType.Error, sender
+                );
                 return false;
             }
         }
         else{
-            if (Methods.getLocaleHu()) sender.sendMessage("Csak játékosok használhatják ezt a parancsot!");
-            else sender.sendMessage("Only players are allowed to use this command!");
+            Methods.langBasedMessage(
+                    "Csak játékosok használhatják ezt a parancsot.",
+                    "Only players are allowed to use this command.",
+                    BroadcastType.Sender, MessageType.Error, sender
+            );
             return true;
         }
     }

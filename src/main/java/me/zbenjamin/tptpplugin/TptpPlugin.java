@@ -2,19 +2,18 @@ package me.zbenjamin.tptpplugin;
 
 import me.zbenjamin.tptpplugin.emotes.HappyCmd;
 import me.zbenjamin.tptpplugin.emotes.SadCmd;
+import me.zbenjamin.tptpplugin.enums.BroadcastType;
+import me.zbenjamin.tptpplugin.enums.MessageType;
 import me.zbenjamin.tptpplugin.files.WarpConfig;
-import me.zbenjamin.tptpplugin.warpsystem.LobbyCmd;
-import me.zbenjamin.tptpplugin.warpsystem.SetWarp;
-import me.zbenjamin.tptpplugin.warpsystem.TpSign;
-import me.zbenjamin.tptpplugin.warpsystem.TpWarp;
+import me.zbenjamin.tptpplugin.warpsystem.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.BlockExplodeEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,7 +22,8 @@ import java.util.Objects;
 
 // Feladatok
 // - Lobby protection kijavítása
-// - LobbyCmd classban a TabCompletion rész javítása --> xyz koordináták rövidítése 2 tizedre
+// - Yaw, pitch beépítése a warpokhoz, lobbyhoz
+// - Methods.java -> javadoc készítése
 
 public final class TptpPlugin extends JavaPlugin implements Listener {
 
@@ -41,20 +41,23 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
         Objects.requireNonNull(getCommand("tptpset")).setExecutor(new SetWarp());
         Objects.requireNonNull(getCommand("tptp")).setExecutor(new TpWarp());
         Objects.requireNonNull(getCommand("tptpsign")).setExecutor(new TpSign());
+        Objects.requireNonNull(getCommand("tptpremove")).setExecutor(new TpRemove());
 
         Objects.requireNonNull(getCommand("lobby")).setExecutor(new LobbyCmd());
 
         Objects.requireNonNull(getCommand("rename")).setExecutor(new OtherCommands());
-        Objects.requireNonNull(getCommand("blockcoord")).setExecutor(new OtherCommands());
-        Objects.requireNonNull(getCommand("getcoord")).setExecutor(new OtherCommands());
+        Objects.requireNonNull(getCommand("blockcoords")).setExecutor(new OtherCommands());
+        Objects.requireNonNull(getCommand("getcoords")).setExecutor(new OtherCommands());
         Objects.requireNonNull(getCommand("heal")).setExecutor(new OtherCommands());
         Objects.requireNonNull(getCommand("feed")).setExecutor(new OtherCommands());
         Objects.requireNonNull(getCommand("invulnerable")).setExecutor(new OtherCommands());
         Objects.requireNonNull(getCommand("gcmd")).setExecutor(new OtherCommands());
         Objects.requireNonNull(getCommand("gbarr")).setExecutor(new OtherCommands());
+        Objects.requireNonNull(getCommand("killitems")).setExecutor(new OtherCommands());
 
         getConfig().addDefault("locale", "hu");
-        getConfig().addDefault("tnt-allowed", false);
+        getConfig().addDefault("block-explodes-allowed", false);
+        getConfig().addDefault("entity-explodes-allowed", true);
         getConfig().addDefault("customjoinmessage", true);
         getConfig().addDefault("joinmessage", "Má' megin' itt van ez a %%player%%");
 
@@ -112,78 +115,26 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onBlockPlace(BlockPlaceEvent e){
-        if (e.getBlock().getType() == Material.TNT){
-            if (!getConfig().getBoolean("tnt-allowed")){
-                e.setCancelled(true);
-                if (Methods.getLocaleHu()) e.getPlayer()
-                        .sendMessage(ChatColor.RED + "[Tptp Plugin] Nem tudsz TNT-t lehelyezni.");
-                else e.getPlayer().sendMessage(ChatColor.RED + "[Tptp Plugin] You cannot place TNTs.");
-            }
-        }/*
-        Location p1 = new Location(
-                event.getPlayer().getWorld(),
-                WarpConfig.get().getInt("lobby.p1x"),
-                WarpConfig.get().getInt("lobby.p1y"),
-                WarpConfig.get().getInt("lobby.p1z"));
-        Location p2 = new Location(
-                event.getPlayer().getWorld(),
-                WarpConfig.get().getInt("lobby.p2x"),
-                WarpConfig.get().getInt("lobby.p2y"),
-                WarpConfig.get().getInt("lobby.p2z"));
-        Location plo = event.getPlayer().getLocation();
-        if (
-                event.getPlayer().getWorld().getName().equalsIgnoreCase("flatworld")
-                        && plo.getX() >= p1.getX() && plo.getY() >= p1.getY() && plo.getZ() >= p1.getZ()
-                        && plo.getX() <= p2.getX() && plo.getY() <= p2.getY() && plo.getZ() <= p2.getZ()
-        ){
-            event.setCancelled(true);
-            if (Methods.getLocaleHu()) event.getPlayer()
-                    .sendMessage(ChatColor.RED + "[Tptp Plugin] Nem tudod módosítani a lobbyt.");
-            else event.getPlayer().sendMessage(ChatColor.RED + "[Tptp Plugin] You cannot edit the lobby.");
+    public void onBlockExplode(BlockExplodeEvent e){
+        if (!getConfig().getBoolean("block-explodes-allowed")){
+            e.setCancelled(true);
+            Methods.langBasedMessage(
+                    "A robbantások nem engedélyezettek a szerveren.",
+                    "Explodes are not allowed on this server.",
+                    BroadcastType.Server, MessageType.Error
+            );
         }
-        if (WarpConfig.get().getBoolean("lobby.protect")){
-            Location p1 = new Location(
-                    e.getPlayer().getWorld(),
-                    WarpConfig.get().getInt("lobby.p1x"),
-                    WarpConfig.get().getInt("lobby.p1y"),
-                    WarpConfig.get().getInt("lobby.p1z"));
-            Location p2 = new Location(
-                    e.getPlayer().getWorld(),
-                    WarpConfig.get().getInt("lobby.p2x"),
-                    WarpConfig.get().getInt("lobby.p2y"),
-                    WarpConfig.get().getInt("lobby.p2z"));
-            Location plo = Methods.getTargetBlock(e.getPlayer()).getLocation();
-            if (
-                    e.getPlayer().getWorld().getName().equalsIgnoreCase("flatworld")
-                            && plo.getX() >= p1.getX() && plo.getY() >= p1.getY() && plo.getZ() >= p1.getZ()
-                            && plo.getX() <= p2.getX() && plo.getY() <= p2.getY() && plo.getZ() <= p2.getZ()
-            )
-        }*/
     }
-/*
     @EventHandler
-    public void OnBlockBreak(BlockBreakEvent event){
-        Location p1 = new Location(
-                event.getPlayer().getWorld(),
-                WarpConfig.get().getInt("lobby.p1x"),
-                WarpConfig.get().getInt("lobby.p1y"),
-                WarpConfig.get().getInt("lobby.p1z"));
-        Location p2 = new Location(
-                event.getPlayer().getWorld(),
-                WarpConfig.get().getInt("lobby.p2x"),
-                WarpConfig.get().getInt("lobby.p2y"),
-                WarpConfig.get().getInt("lobby.p2z"));
-        Location plo = event.getPlayer().getLocation();
-        if (
-                event.getPlayer().getWorld().getName().equalsIgnoreCase("flatworld")
-                        && plo.getX() >= p1.getX() && plo.getY() >= p1.getY() && plo.getZ() >= p1.getZ()
-                        && plo.getX() <= p2.getX() && plo.getY() <= p2.getY() && plo.getZ() <= p2.getZ()
-        ){
-            event.setCancelled(true);
-            if (Methods.getLocaleHu()) event.getPlayer()
-                    .sendMessage(ChatColor.RED + "[Tptp Plugin] Nem tudod módosítani a lobbyt.");
-            else event.getPlayer().sendMessage(ChatColor.RED + "[Tptp Plugin] You cannot edit the lobby.");
+    public void onEntityExplode(EntityExplodeEvent e){
+        if (!getConfig().getBoolean("entity-explodes-allowed")){
+            e.setCancelled(true);
+            String entityName = e.getEntityType().toString().toLowerCase();
+            Methods.langBasedMessage(
+                    "Egy " + ChatColor.RED + entityName + ChatColor.RESET + " megpróbált felrobbani, de nem sikerült neki, ugyanis a robbanások nem engedélyezettek a szerveren.",
+                    "A " + ChatColor.RED + entityName + ChatColor.RESET + " has tried to explode, but it couldn't, because explodes are not allowed on this server.",
+                    BroadcastType.Server, MessageType.Error
+            );
         }
-    }*/
+    }
 }
