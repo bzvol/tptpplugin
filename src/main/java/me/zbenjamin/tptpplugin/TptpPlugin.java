@@ -42,6 +42,7 @@ public final class TptpPlugin extends JavaPlugin implements Listener {
         Objects.requireNonNull(getCommand("tptp")).setExecutor(new TpWarp());
         Objects.requireNonNull(getCommand("tptpsign")).setExecutor(new TpSign());
         Objects.requireNonNull(getCommand("tptpremove")).setExecutor(new TpRemove());
+        Objects.requireNonNull(getCommand("tptplist")).setExecutor(new TpList());
 
         Objects.requireNonNull(getCommand("lobby")).setExecutor(new LobbyCmd());
 

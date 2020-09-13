@@ -33,7 +33,7 @@ public class TpRemove implements TabExecutor {
                 return true;
             }
             else if (WarpConfig.get().contains("playerwarps." + ((Player) sender).getUniqueId().toString() + "." + args[0])) {
-                WarpConfig.get().set("playerwarps" + ((Player) sender).getUniqueId().toString() + "." + args[0], null);
+                WarpConfig.get().set("playerwarps." + ((Player) sender).getUniqueId().toString() + "." + args[0], null);
 
                 Methods.langBasedMessage(ChatColor.DARK_AQUA + args[0] + ChatColor.RESET + " saját pont kitörölve!",
                         "Your own point, " + ChatColor.DARK_AQUA + args[0] + ChatColor.RESET + " has been removed!",

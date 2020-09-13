@@ -28,6 +28,9 @@ commands:
   tptpsign:
     description: Egy táblát warp-táblává alakít át. It makes a sign to a warp-sign.
     usage: /<command>
+  tptplist:
+    description: Kilistázza a tptp-ket. Lists the tptps.
+    usage: /<command>
   lobby:
     description: Elteleportál a lobbyba, vagy beállítja azt. It teleports you to the lobby, or you can set it.
     usage: /<command> [set [x] [y] [z] | reloadconfig | setprotect <p1 | p2> | protect <on | off>]

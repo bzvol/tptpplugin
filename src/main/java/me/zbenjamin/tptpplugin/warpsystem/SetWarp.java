@@ -100,8 +100,7 @@ public class SetWarp implements TabExecutor {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         DecimalFormat decform = new DecimalFormat("#.##");
         if (args.length == 1) {
-            Set<String> warps = null;
-            Set<String> warps2 = null;
+            Set<String> warps = null, warps2 = null;
 
             try { warps = Objects.requireNonNull(WarpConfig.get().getConfigurationSection("warps")).getKeys(false); }
             catch (NullPointerException ignored){}
